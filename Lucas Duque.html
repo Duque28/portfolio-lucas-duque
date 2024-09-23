@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfólio</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #333;
+            color: #fff;
+            position: relative;
+        }
+        .light-effect {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+            background: radial-gradient(circle at 50% 50%, rgba(40, 167, 69, 0.5), rgba(40, 167, 69, 0) 70%);
+            animation: lightAnimation 2s infinite linear;
+        }
+        @keyframes lightAnimation {
+            0% {
+                transform: scale(1);
+            }
+            100% {
+                transform: scale(1.05);
+            }
+        }
+        header {
+            background: #444;
+            padding: 50px 0;
+            text-align: center;
+            position: relative;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+        }
+        header h1 {
+            font-size: 3.5rem;
+            margin: 0;
+            animation: slideIn 1s forwards;
+        }
+        header h2 {
+            font-size: 2rem;
+            margin-top: 10px;
+            opacity: 0.8;
+        }
+        nav {
+            margin-top: 20px;
+        }
+        nav a {
+            margin: 0 15px;
+            color: #fff;
+            text-decoration: none;
+            font-weight: bold;
+            position: relative;
+            transition: color 0.3s;
+        }
+        nav a:hover {
+            color: #28a745;
+        }
+        section {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            color: #f0f0f0;
+        }
+        h2 {
+            border-bottom: 2px solid #28a745;
+            padding-bottom: 10px;
+            font-size: 2.5rem;
+        }
+        .projeto {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 5px;
+        }
+        .projeto img {
+            max-width: 120px;
+            margin-right: 15px;
+            border-radius: 5px;
+        }
+        .cta {
+            display: inline-block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            background: #28a745;
+            color: #fff;
+            border-radius: 5px;
+            text-align: center;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.3s;
+        }
+        .cta:hover {
+            background: #218838;
+            transform: scale(1.05);
+        }
+        footer {
+            text-align: center;
+            padding: 20px;
+            background: #222;
+            color: #fff;
+        }
+        @keyframes slideIn {
+            from { transform: translateY(-100%); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+    </style>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const title = "Portfólio de Lucas Duque";
+            let index = 0;
+            const element = document.querySelector("header h1");
+
+            function type() {
+                if (index < title.length) {
+                    element.innerHTML += title.charAt(index);
+                    index++;
+                    setTimeout(type, 100);
+                }
+            }
+            type();
+        });
+
+        async function fetchProjects() {
+            const response = await fetch('https://api.behance.net/v2/users/lucasduque1/projects?client_id=YOUR_API_KEY');
+            const data = await response.json();
+            const projectsContainer = document.getElementById('projects');
+
+            data.projects.forEach(project => {
+                const projectElement = document.createElement('div');
+                projectElement.className = 'projeto';
+                projectElement.innerHTML = `
+                    <a href="${project.url}" target="_blank">
+                        <img src="${project.covers.original}" alt="${project.name}">
+                    </a>
+                    <div>
+                        <strong>${project.name}</strong><br>
+                        <a href="${project.url}" target="_blank" style="color: #28a745;">Ver no Behance</a>
+                    </div>
+                `;
+                projectsContainer.appendChild(projectElement);
+            });
+        }
+
+        fetchProjects();
+    </script>
+</head>
+<body>
+
+<div class="light-effect"></div>
+
+<header>
+    <h2>Lucas Duque</h2>
+    <h1></h1>
+    <nav>
+        <a href="#sobre">Sobre Mim</a>
+        <a href="#projetos">Projetos</a>
+        <a href="#servicos">Serviços</a>
+        <a href="#contato">Contato</a>
+    </nav>
+</header>
+
+<section id="sobre">
+    <h2>Sobre Mim</h2>
+    <p>Sou Lucas Duque, um designer apaixonado por criar experiências visuais que cativam e convertem. Com experiência em diversas áreas de design, estou sempre buscando novas maneiras de trazer ideias à vida.</p>
+    <div class="cta">Vamos Conversar!</div>
+</section>
+
+<section id="projetos">
+    <h2>Projetos</h2>
+    <div id="projects"></div>
+</section>
+
+<section id="servicos">
+    <h2>Serviços</h2>
+    <p>Aqui estão alguns dos serviços que ofereço:</p>
+    <ul>
+        <li><strong>Design Gráfico:</strong> Criação de identidade visual, logotipos e materiais gráficos.</li>
+        <li><strong>Web Design:</strong> Desenvolvimento de sites responsivos e atraentes.</li>
+        <li><strong>Design de Interfaces:</strong> Criação de interfaces intuitivas e funcionais.</li>
+    </ul>
+</section>
+
+<section id="contato">
+    <h2>Contato</h2>
+    <p>Vamos conversar sobre como posso ajudar a transformar suas ideias em realidade!</p>
+    <p>Email: <a href="mailto:duquelucas18@gmail.com" style="color: #28a745;">duquelucas18@gmail.com</a></p>
+    <p>LinkedIn: <a href="https://www.linkedin.com/in/lucas-duque-113b921b3/" target="_blank" style="color: #28a745;">Meu Perfil</a></p>
+    <p>Behance: <a href="https://www.behance.net/lucasduque1" target="_blank" style="color: #28a745;">Meu Portfólio</a></p>
+</section>
+
+<footer>
+    <p>&copy; 2024 Lucas Duque. Todos os direitos reservados.</p>
+</footer>
+
+</body>
+</html>
